@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { KjkApiService } from '../shared/services/kjk-api.service';
-import { Book } from '../shared/model/book';
+import { BookDetailed } from '../shared/model/bookDetailed';
 
 @Component({
   selector: 'app-book-details',
