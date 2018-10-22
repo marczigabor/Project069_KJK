@@ -1,11 +1,14 @@
-<p>
-  book-details works!
-</p>
-
 <div>
-  {{book.name}}
+  {{book?.name}}
 </div>
 
 <div class="angular-with-newlines">
-  {{book.backgroundStory}}
+  {{book?.backgroundStory}}
+</div>
+
+<div>
+  <h1>Start</h1>
+  <a routerLink="/books/{{book?.id}}/chapters/1">
+    <span class="badge">Let's start your adventure</span> 
+  </a>
 </div>

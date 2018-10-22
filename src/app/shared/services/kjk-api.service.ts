@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 import { BookDetailed } from '../model/bookDetailed';
+import { Chapter } from '../model/chapter';
 
 // const httpOptions = {
 //   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,18 +16,28 @@ import { BookDetailed } from '../model/bookDetailed';
   providedIn: 'root'
 })
 export class KjkApiService {
- 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }   
     private kjkUrl = 'https://localhost:5001/api/';
+
+  
+  getChapter(bookId: number, chapterId: number): Observable<Chapter>  {
+    const url = `${this.kjkUrl}books/${bookId}/chapters/${chapterId}`;
+
+    return this.http.get<Chapter>(url)
+      .pipe(
+        tap(_ => this.log(`fetched chapter bookId=${bookId} chapterId=${chapterId}`)),
+        catchError(this.handleError<Chapter>(`getChapter bookId=${bookId} chapterId=${chapterId}`))
+      ); 
+  }
 
   getBook(id: number): Observable<BookDetailed> {
     const url = `${this.kjkUrl}books/${id}`;
 
     return this.http.get<BookDetailed>(url)
       .pipe(
-        tap(_ => this.log(`fetched hero id=${id}`)),
+        tap(_ => this.log(`fetched book id=${id}`)),
         catchError(this.handleError<BookDetailed>(`getBook id=${id}`))
       ); 
   }

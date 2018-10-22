@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { MessagesComponent } from './messages/messages.component';
 import { BooksComponent } from './books/books.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
+import { ChaptersComponent } from './chapters/chapters.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MessagesComponent,
     BooksComponent,
-    BookDetailsComponent
+    BookDetailsComponent,
+    ChaptersComponent
   ],
   imports: [
     BrowserModule,

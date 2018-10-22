@@ -33,5 +33,4 @@ export class BookDetailsComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }   
-
 }

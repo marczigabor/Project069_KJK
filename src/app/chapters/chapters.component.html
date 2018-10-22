@@ -1,0 +1,16 @@
+<div>
+  {{chapter?.number}}
+</div>
+
+<div>
+    {{chapter?.description}}
+</div>
+  
+<ul class="navigation">
+    <li *ngFor="let navigationChapter of chapter?.navigationChapters">
+      <a routerLink="/books/{{chapter.bookId}}/chapters/{{navigationChapter.chapterId}}">
+        <span class="badge">{{navigationChapter.number}}</span>
+      </a>
+    </li>
+</ul>
+  
