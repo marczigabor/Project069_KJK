@@ -1,0 +1,14 @@
+<p>
+  Available books
+</p>
+
+<ul class="books">
+  <li *ngFor="let book of books">
+    <a routerLink="/book-detail/{{book.id}}">
+      <span class="badge">{{book.id}}</span> {{book.name}}
+    </a>
+    <!-- <button class="delete" title="delete hero"
+      (click)="delete(hero)">x</button> -->
+  </li>
+</ul>
+
