@@ -25,7 +25,6 @@ export class ChaptersComponent implements OnInit {
      }
 
   ngOnInit() {
-    
   }
 
   getChapter(): void {
