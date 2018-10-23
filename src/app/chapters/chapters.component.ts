@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { KjkApiService } from '../shared/services/kjk-api.service';
 import { Chapter } from '../shared/model/chapter';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chapters',
@@ -28,11 +29,17 @@ export class ChaptersComponent implements OnInit {
   }
 
   getChapter(): void {
-    const bookId = +this.route.snapshot.paramMap.get('bookId');
-    const chapterId = +this.route.snapshot.paramMap.get('chapterId');
+    const bookId : number = +this.route.snapshot.paramMap.get('bookId');
+    const chapterId : number = +this.route.snapshot.paramMap.get('chapterId');
+    let chapterObservable : Observable<Chapter>; 
 
-    this.kjkService.getChapter(bookId, chapterId)
-      .subscribe(chapter => this.chapter = chapter);
+    if (chapterId == 1){
+      chapterObservable = this.kjkService.getFirstChapter(bookId);
+      
+    }else {
+      chapterObservable = this.kjkService.getChapter(bookId, chapterId);
+    }
+
+    chapterObservable.subscribe(chapter => this.chapter = chapter);
   }
-
 }

@@ -32,6 +32,16 @@ export class KjkApiService {
       ); 
   }
 
+  getFirstChapter(bookId: number): Observable<Chapter>  {
+    const url = `${this.kjkUrl}books/${bookId}/chapters/first`;
+
+    return this.http.get<Chapter>(url)
+      .pipe(
+        tap(_ => this.log(`fetched chapter bookId=${bookId}`)),
+        catchError(this.handleError<Chapter>(`getChapter bookId=${bookId}`))
+      ); 
+  }
+
   getBook(id: number): Observable<BookDetailed> {
     const url = `${this.kjkUrl}books/${id}`;
 
