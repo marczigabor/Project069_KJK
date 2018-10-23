@@ -7,20 +7,32 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 import { BookDetailed } from '../model/bookDetailed';
 import { Chapter } from '../model/chapter';
+import { Game } from '../model/game';
 
-// const httpOptions = {
-//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-// };
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class KjkApiService {
+
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }   
     private kjkUrl = 'https://localhost:5001/api/';
+    //private kjkUrl = 'http://localhost:54656/api/';
 
+  
+  addGame(game: Game): Observable<number> {
+    const url = `${this.kjkUrl}games`;
+
+    return this.http.post<number>(url, game, httpOptions).pipe(
+      tap(x => this.log(`added game with id: ${x} `)),
+      catchError(this.handleError<number>('addGame'))
+    );
+  }
   
   getChapter(bookId: number, chapterId: number): Observable<Chapter>  {
     const url = `${this.kjkUrl}books/${bookId}/chapters/${chapterId}`;
@@ -40,6 +52,16 @@ export class KjkApiService {
         tap(_ => this.log(`fetched chapter bookId=${bookId}`)),
         catchError(this.handleError<Chapter>(`getChapter bookId=${bookId}`))
       ); 
+  }
+
+  getRules(bookId: number):Observable<string>{
+    const url = `${this.kjkUrl}books/${bookId}/rules`;
+
+    return this.http.get<string>(url)
+      .pipe(
+       tap(_ => this.log(`fetched rules bookId=${bookId}`)),
+       catchError(this.handleError<string>(`getRules bookId=${bookId}`))
+    ); 
   }
 
   getBook(id: number): Observable<BookDetailed> {

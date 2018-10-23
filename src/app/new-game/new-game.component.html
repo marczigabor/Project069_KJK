@@ -1,0 +1,31 @@
+<h1>Fill your adventure sheet!</h1>
+
+<div class="angular-with-newlines">
+  {{rules}}
+</div>
+
+<div>
+  <label>name:
+    <input [(ngModel)]="game.name" placeholder="name">
+  </label>
+</div>
+<div>
+    <label>skill:
+      <input [(ngModel)]="game.skill" placeholder="skill">
+    </label>
+    <button (click)="generate('skill')">Generate</button>
+  </div>
+<div>
+    <label>stamina:
+      <input [(ngModel)]="game.stamina" placeholder="stamina">
+      <button (click)="generate('stamina')">Generate</button>
+</label>
+</div>
+<div>
+    <label>luck:
+      <input [(ngModel)]="game.luck" placeholder="luck">
+    </label>
+    <button (click)="generate('luck')">Generate</button>
+  </div>
+  
+  <button (click)="submit()">Submit</button>
