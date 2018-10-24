@@ -51,18 +51,9 @@ export class ChaptersComponent implements OnChanges {
   }
 
   getChapter(): void {
-
-    if(this.bookId && this.chapterId){
-      let chapterObservable : Observable<Chapter>; 
-
-      if (this.chapterId == 1){
-        chapterObservable = this.kjkService.getFirstChapter(this.bookId);
-        
-      }else {
-        chapterObservable = this.kjkService.getChapter(this.bookId, this.chapterId);
-      }
-
-      chapterObservable.subscribe(chapter => this.chapter = chapter);
+    if (this.bookId && this.chapterId) {
+      this.kjkService.getChapter(this.bookId, this.chapterId)
+      .subscribe(chapter => this.chapter = chapter);
     }
   }
 }
