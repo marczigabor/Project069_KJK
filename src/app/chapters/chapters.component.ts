@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { KjkApiService } from '../shared/services/kjk-api.service';
@@ -10,7 +10,19 @@ import { Observable } from 'rxjs';
   templateUrl: './chapters.component.html',
   styleUrls: ['./chapters.component.css']
 })
-export class ChaptersComponent implements OnInit {
+export class ChaptersComponent implements OnChanges {
+
+  @Input() bookId: number;
+  @Input() chapterId: number;
+  
+  // private _chapterId: number;
+  // @Input()
+  // set chapterId(value: number) {
+  //   this._chapterId = value;
+  // }
+ 
+  // get chapterId(): number { return this._chapterId; }
+
 
   chapter: Chapter;  
 
@@ -24,21 +36,33 @@ export class ChaptersComponent implements OnInit {
       });
      }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+  
+    if ((changes.bookId.previousValue !== changes.bookId.currentValue) || (changes.chapterId.previousValue !== changes.chapterId.currentValue))
+    {
+      this.getChapter();
+      console.log(changes.bookId);
+      }
+  }
+
+  setChapterId(chapterId: number):void{
+    this.chapterId = chapterId;
+    this.getChapter();
   }
 
   getChapter(): void {
-    const bookId : number = +this.route.snapshot.paramMap.get('bookId');
-    const chapterId : number = +this.route.snapshot.paramMap.get('chapterId');
-    let chapterObservable : Observable<Chapter>; 
 
-    if (chapterId == 1){
-      chapterObservable = this.kjkService.getFirstChapter(bookId);
-      
-    }else {
-      chapterObservable = this.kjkService.getChapter(bookId, chapterId);
+    if(this.bookId && this.chapterId){
+      let chapterObservable : Observable<Chapter>; 
+
+      if (this.chapterId == 1){
+        chapterObservable = this.kjkService.getFirstChapter(this.bookId);
+        
+      }else {
+        chapterObservable = this.kjkService.getChapter(this.bookId, this.chapterId);
+      }
+
+      chapterObservable.subscribe(chapter => this.chapter = chapter);
     }
-
-    chapterObservable.subscribe(chapter => this.chapter = chapter);
   }
 }

@@ -33,7 +33,17 @@ export class KjkApiService {
       catchError(this.handleError<number>('addGame'))
     );
   }
-  
+
+  getGame(gameId: number): Observable<Game> {
+    const url = `${this.kjkUrl}games/${gameId}`;
+
+    return this.http.get<Game>(url)
+      .pipe(
+        tap(game => this.log(`fetched game=${game.id}`)),
+        catchError(this.handleError<Game>(`getGame gameId=${gameId}`))
+      ); 
+  }
+
   getChapter(bookId: number, chapterId: number): Observable<Chapter>  {
     const url = `${this.kjkUrl}books/${bookId}/chapters/${chapterId}`;
 

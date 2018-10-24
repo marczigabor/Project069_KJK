@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Game } from '../shared/model/game';
 import { KjkApiService } from '../shared/services/kjk-api.service';
@@ -15,7 +15,8 @@ export class NewGameComponent implements OnInit {
   constructor(
     private kjkService: KjkApiService,
     private randomNumGeneratorService :RandomNumGeneratorService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
     ) { 
       this.game = new Game();
       this.game.bookId = +this.route.snapshot.paramMap.get('bookId');
@@ -32,7 +33,7 @@ export class NewGameComponent implements OnInit {
 
     switch(property) { 
       case 'skill': { 
-         this.game.skill = this.randomNumGeneratorService.RandomNum(1,12);
+         this.game.skill = this.randomNumGeneratorService.RandomNum(7,12);
          break; 
       } 
       case 'stamina': { 
@@ -40,7 +41,7 @@ export class NewGameComponent implements OnInit {
          break; 
       } 
       case 'luck':{
-        this.game.luck = this.randomNumGeneratorService.RandomNum(1,12);
+        this.game.luck = this.randomNumGeneratorService.RandomNum(7,12);
         break; 
       }
       default: { 
@@ -67,6 +68,6 @@ export class NewGameComponent implements OnInit {
   }
 
   succesfulNewGame(gameId: number): void {
-    console.log("succesfulNewGame " + gameId);
+    this.router.navigate(['/game', gameId]);
   }
 }
