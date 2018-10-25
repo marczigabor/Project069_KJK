@@ -1,4 +1,9 @@
 <p>
   game works!
 </p>
+<div>Skill: {{game?.skill}}</div>
+<div>Stamina: {{game?.stamina}}</div>
+<div>Luck: {{game?.luck}}</div>
+
+<br/>
 <app-chapters [bookId]="game?.bookId" [chapterId]="game?.chapterId"></app-chapters>

@@ -17,13 +17,22 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class KjkApiService {
-
+ 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }   
     private kjkUrl = 'https://localhost:5001/api/';
     //private kjkUrl = 'http://localhost:54656/api/';
 
+  getGames(): Observable<Game[]> {
+    const url = `${this.kjkUrl}games`;
+
+    return this.http.get<Game[]>(url)
+    .pipe(
+      tap(x => this.log(`getting games`)),
+      catchError(this.handleError<Game[]>('getGames'))
+    );
+  }    
   
   addGame(game: Game): Observable<number> {
     const url = `${this.kjkUrl}games`;

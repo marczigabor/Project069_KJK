@@ -11,6 +11,7 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { ChaptersComponent } from './chapters/chapters.component';
 import { NewGameComponent } from './new-game/new-game.component';
 import { GameComponent } from './game/game.component';
+import { GamesComponent } from './games/games.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GameComponent } from './game/game.component';
     BookDetailsComponent,
     ChaptersComponent,
     NewGameComponent,
-    GameComponent
+    GameComponent,
+    GamesComponent
   ],
   imports: [
     BrowserModule,
