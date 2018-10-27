@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges  } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, EventEmitter, Output  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { KjkApiService } from '../shared/services/kjk-api.service';
@@ -14,15 +14,14 @@ export class ChaptersComponent implements OnChanges {
 
   @Input() bookId: number;
   @Input() chapterId: number;
-  
+  @Output() chapterChange = new EventEmitter<number>();
+
   // private _chapterId: number;
   // @Input()
   // set chapterId(value: number) {
   //   this._chapterId = value;
   // }
- 
-  // get chapterId(): number { return this._chapterId; }
-
+ // get chapterId(): number { return this._chapterId; }
 
   chapter: Chapter;  
 
@@ -38,7 +37,7 @@ export class ChaptersComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
   
-    if ((changes.bookId.previousValue !== changes.bookId.currentValue) || (changes.chapterId.previousValue !== changes.chapterId.currentValue))
+    if ((changes.bookId && changes.bookId.previousValue !== changes.bookId.currentValue) || (changes.chapterId && changes.chapterId.previousValue !== changes.chapterId.currentValue))
     {
       this.getChapter();
       console.log(changes.bookId);
@@ -46,8 +45,9 @@ export class ChaptersComponent implements OnChanges {
   }
 
   setChapterId(chapterId: number):void{
-    this.chapterId = chapterId;
-    this.getChapter();
+    this.chapterChange.emit(chapterId);
+    // this.chapterId = chapterId;
+    // this.getChapter();
   }
 
   getChapter(): void {

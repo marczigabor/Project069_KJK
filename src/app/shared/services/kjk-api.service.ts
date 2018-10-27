@@ -24,6 +24,25 @@ export class KjkApiService {
     private kjkUrl = 'https://localhost:5001/api/';
     //private kjkUrl = 'http://localhost:54656/api/';
 
+  setGame(game: Game): Observable<Game> {
+    const url = `${this.kjkUrl}games`;
+
+    return this.http.put<Game>(url, game, httpOptions).pipe(
+      tap(game => this.log(`modified game with id: ${game.id} `)),
+      catchError(this.handleError<Game>('setGame'))
+    );
+  }
+
+  deleteGame(gameId: number): Observable<void> {
+    const url = `${this.kjkUrl}games/${gameId}`;
+
+    return this.http.delete<void>(url)
+    .pipe(
+      tap(x => this.log(`delete game`)),
+      catchError(this.handleError<void>('deleteGame'))
+    );
+  }
+
   getGames(): Observable<Game[]> {
     const url = `${this.kjkUrl}games`;
 

@@ -6,4 +6,4 @@
 <div>Luck: {{game?.luck}}</div>
 
 <br/>
-<app-chapters [bookId]="game?.bookId" [chapterId]="game?.chapterId"></app-chapters>
+<app-chapters [bookId]="game?.bookId" [chapterId]="game?.chapterId" (chapterChange)="setGame($event)"></app-chapters>

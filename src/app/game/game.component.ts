@@ -21,10 +21,11 @@ export class GameComponent implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit(): void {
-    this.getGame();
-  }  
-  getGame(): void{
     const gameId : number = +this.route.snapshot.paramMap.get('gameId');
+    this.getGame(gameId);
+  }  
+
+  getGame(gameId: number): void{
       
     this.kjkService.getGame(gameId)
       .subscribe(game => this.succesfulGetGame(game), 
@@ -34,6 +35,21 @@ export class GameComponent implements OnInit, AfterViewInit  {
         () => {}  
     );
   }
+
+  setGame(chapterId: number) {
+    //save the latest chapterId
+
+    let gameSave : Game = this.game;
+    gameSave.chapterId = chapterId;
+
+    this.kjkService.setGame(this.game)
+    .subscribe(game => this.succesfulGetGame(game), 
+      //error
+      (error) => { console.error("Error during saving new game"); }, 
+      // completed
+      () => {}  
+      );    
+  }  
 
   succesfulGetGame(game: Game): void {
     this.game = game;

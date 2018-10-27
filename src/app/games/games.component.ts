@@ -19,6 +19,20 @@ export class GamesComponent implements OnInit {
     this.getGames();
   }
 
+  deleteGame(id: number): void {
+    this.kjkService.deleteGame(id)
+    .subscribe(
+      () => { 
+        this.getGames();
+        console.log("game deleted") 
+      }, 
+      //error
+      (error) => { console.error(`Error during getting games`); }, 
+      // completed
+      () => {}  
+    );
+  }
+
   getGames():void {
     this.kjkService.getGames()
     .subscribe((games => this.games = games), 
