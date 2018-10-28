@@ -12,6 +12,8 @@ import { ChaptersComponent } from './chapters/chapters.component';
 import { NewGameComponent } from './new-game/new-game.component';
 import { GameComponent } from './game/game.component';
 import { GamesComponent } from './games/games.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { GamesComponent } from './games/games.component';
     ChaptersComponent,
     NewGameComponent,
     GameComponent,
-    GamesComponent
+    GamesComponent,
+    RegistrationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

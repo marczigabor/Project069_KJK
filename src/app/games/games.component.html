@@ -1,7 +1,7 @@
 <ul class="games">
   <li *ngFor="let game of games">
     <a routerLink="/game/{{game.id}}">
-      <span class="badge">{{game.id}}</span> {{game.name}}
+      <span class="badge">{{game.name}} - ({{game.bookName}}) </span>
     </a>
     <button class="delete" title="delete game"
       (click)="deleteGame(game.id)">x

@@ -16,23 +16,16 @@ export class ChaptersComponent implements OnChanges {
   @Input() chapterId: number;
   @Output() chapterChange = new EventEmitter<number>();
 
-  // private _chapterId: number;
-  // @Input()
-  // set chapterId(value: number) {
-  //   this._chapterId = value;
-  // }
- // get chapterId(): number { return this._chapterId; }
-
   chapter: Chapter;  
 
   constructor(
     private kjkService: KjkApiService,
     private route: ActivatedRoute
     ) {
-      route.params.subscribe(val => {
-        this.getChapter();
-        console.log("loaded chapter");
-      });
+      // route.params.subscribe(val => {
+      //   this.getChapter();
+      //   console.log("loaded chapter");
+      // });
      }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,8 +39,6 @@ export class ChaptersComponent implements OnChanges {
 
   setChapterId(chapterId: number):void{
     this.chapterChange.emit(chapterId);
-    // this.chapterId = chapterId;
-    // this.getChapter();
   }
 
   getChapter(): void {
