@@ -14,11 +14,12 @@ import { Game } from '../model/game';
   providedIn: 'root'
 })
 export class KjkApiService {
-  loggedIn: boolean;
+  private loggedIn: boolean = false;
  
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }   
+
     private kjkUrl = 'https://localhost:5001/api/';
     //private kjkUrl = 'http://localhost:54656/api/';
 
