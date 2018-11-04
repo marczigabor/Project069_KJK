@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { LoggedInUser } from './shared/model/loggedInUser';
+import { KjkApiService } from './shared/services/kjk-api.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -8,5 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent { 
   title = 'kjk';
+  currentUser: LoggedInUser;
  
+  constructor(
+    private kjkService: KjkApiService,
+    private router: Router   
+    ){
+    this.kjkService.currentUser.subscribe(x => this.currentUser = x);
+  }
+
+  logout() {
+    this.kjkService.logout();
+    this.router.navigate(['/login']);
+  }  
 }

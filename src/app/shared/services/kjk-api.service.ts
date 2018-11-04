@@ -2,40 +2,51 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Book } from '../model/book';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { MessageService } from './message.service';
 import { BookDetailed } from '../model/bookDetailed';
 import { Chapter } from '../model/chapter';
 import { Game } from '../model/game';
+import { LoggedInUser } from '../model/loggedInUser';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class KjkApiService {
-  private loggedIn: boolean = false;
+
+  private currentUserSubject: BehaviorSubject<LoggedInUser>;
+  public currentUser: Observable<LoggedInUser>;  
  
   constructor(
     private http: HttpClient,
-    private messageService: MessageService) { }   
+    private messageService: MessageService) { 
+      this.currentUserSubject = new BehaviorSubject<LoggedInUser>(JSON.parse(localStorage.getItem('jwtToken')));
+      this.currentUser = this.currentUserSubject.asObservable();
+    }   
 
     private kjkUrl = 'https://localhost:5001/api/';
     //private kjkUrl = 'http://localhost:54656/api/';
 
   getAuth(): HttpHeaders{
-    let authToken = localStorage.getItem('auth_token');
-    let bearerToken : string = `Bearer ${authToken}`;
+    let jwtToken: LoggedInUser = JSON.parse(localStorage.getItem('jwtToken'));
 
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': bearerToken
+    let bearerToken : string = `Bearer ${jwtToken ? jwtToken.auth_token : ''}`;
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': bearerToken
     });
   }
 
-  isLoggedIn():boolean{
-    return this.loggedIn;
+  public get currentUserValue(): LoggedInUser {
+    return this.currentUserSubject.value;
   }
+
+  logout() {
+    localStorage.removeItem('jwtToken');
+    this.currentUserSubject.next(null);
+  }  
 
   login(userName: string, password: string): Observable<string> {
       
@@ -44,8 +55,9 @@ export class KjkApiService {
  
       return this.http.post<any>(url, body, { headers: this.getAuth() }).pipe(
         tap(jwtToken => {
-          localStorage.setItem('auth_token', jwtToken.auth_token);
-          this.loggedIn = true;
+          localStorage.setItem('jwtToken', JSON.stringify(jwtToken));
+          let user: LoggedInUser = new LoggedInUser(jwtToken.id, jwtToken.auth_token, jwtToken.expires_in, jwtToken.userName);
+          this.currentUserSubject.next(user);
           })
         //catchError(this.handleError('Err'))
       );
