@@ -26,18 +26,18 @@ export class KjkApiService {
       this.currentUser = this.currentUserSubject.asObservable();
     }   
 
-    private kjkUrl = 'https://localhost:5001/api/';
-    //private kjkUrl = 'http://localhost:54656/api/';
+  private kjkUrl = 'https://localhost:5001/api/';
+  //private kjkUrl = 'http://localhost:54656/api/';
 
-  getAuth(): HttpHeaders{
-    let jwtToken: LoggedInUser = JSON.parse(localStorage.getItem('jwtToken'));
+  // getAuth(): HttpHeaders{
+  //   let jwtToken: LoggedInUser = JSON.parse(localStorage.getItem('jwtToken'));
 
-    let bearerToken : string = `Bearer ${jwtToken ? jwtToken.auth_token : ''}`;
-      return new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': bearerToken
-    });
-  }
+  //   let bearerToken : string = `Bearer ${jwtToken ? jwtToken.auth_token : ''}`;
+  //     return new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //       'Authorization': bearerToken
+  //   });
+  // }
 
   public get currentUserValue(): LoggedInUser {
     return this.currentUserSubject.value;
@@ -53,7 +53,7 @@ export class KjkApiService {
     const url = `${this.kjkUrl}auth/login`;
       let body = JSON.stringify({ userName, password });
  
-      return this.http.post<any>(url, body, { headers: this.getAuth() }).pipe(
+      return this.http.post<any>(url, body).pipe(
         tap(jwtToken => {
           localStorage.setItem('jwtToken', JSON.stringify(jwtToken));
           let user: LoggedInUser = new LoggedInUser(jwtToken.id, jwtToken.auth_token, jwtToken.expires_in, jwtToken.userName);
@@ -68,7 +68,7 @@ export class KjkApiService {
 
       let body = JSON.stringify({ email, userName, password, firstName, lastName });
  
-      return this.http.post<any>(url, body, { headers: this.getAuth() });
+      return this.http.post<any>(url, body);
       // .pipe(
       //   catchError(this.handleError<any>('register error'))
       // );    
@@ -77,7 +77,7 @@ export class KjkApiService {
   setGame(game: Game): Observable<Game> {
     const url = `${this.kjkUrl}games`;
 
-    return this.http.put<Game>(url, game, { headers: this.getAuth() }).pipe(
+    return this.http.put<Game>(url, game).pipe(
       tap(game => this.log(`modified game with id: ${game.id} `)),
       catchError(this.handleError<Game>('setGame'))
     );
@@ -86,7 +86,7 @@ export class KjkApiService {
   deleteGame(gameId: number): Observable<void> {
     const url = `${this.kjkUrl}games/${gameId}`;
 
-    return this.http.delete<void>(url, { headers: this.getAuth() })
+    return this.http.delete<void>(url)
     .pipe(
       tap(x => this.log(`delete game`)),
       catchError(this.handleError<void>('deleteGame'))
@@ -96,7 +96,7 @@ export class KjkApiService {
   getGames(): Observable<Game[]> {
     const url = `${this.kjkUrl}games`;
 
-    return this.http.get<Game[]>(url, { headers: this.getAuth() })
+    return this.http.get<Game[]>(url)
     .pipe(
       tap(x => this.log(`getting games`)),
       catchError(this.handleError<Game[]>('getGames'))
@@ -106,7 +106,7 @@ export class KjkApiService {
   addGame(game: Game): Observable<number> {
     const url = `${this.kjkUrl}games`;
 
-    return this.http.post<number>(url, game, { headers: this.getAuth() }).pipe(
+    return this.http.post<number>(url, game).pipe(
       tap(x => this.log(`added game with id: ${x} `)),
       catchError(this.handleError<number>('addGame'))
     );
@@ -115,7 +115,7 @@ export class KjkApiService {
   getGame(gameId: number): Observable<Game> {
     const url = `${this.kjkUrl}games/${gameId}`;
 
-    return this.http.get<Game>(url, { headers: this.getAuth() })
+    return this.http.get<Game>(url)
       .pipe(
         tap(game => this.log(`fetched game=${game.id}`)),
         catchError(this.handleError<Game>(`getGame gameId=${gameId}`))
@@ -125,7 +125,7 @@ export class KjkApiService {
   getChapter(bookId: number, chapterId: number): Observable<Chapter>  {
     const url = `${this.kjkUrl}books/${bookId}/chapters/${chapterId}`;
 
-    return this.http.get<Chapter>(url, { headers: this.getAuth() })
+    return this.http.get<Chapter>(url)
       .pipe(
         tap(_ => this.log(`fetched chapter bookId=${bookId} chapterId=${chapterId}`)),
         catchError(this.handleError<Chapter>(`getChapter bookId=${bookId} chapterId=${chapterId}`))
@@ -135,7 +135,7 @@ export class KjkApiService {
   getFirstChapter(bookId: number): Observable<Chapter>  {
     const url = `${this.kjkUrl}books/${bookId}/chapters/first`;
 
-    return this.http.get<Chapter>(url, { headers: this.getAuth() })
+    return this.http.get<Chapter>(url)
       .pipe(
         tap(_ => this.log(`fetched chapter bookId=${bookId}`)),
         catchError(this.handleError<Chapter>(`getChapter bookId=${bookId}`))
@@ -145,7 +145,7 @@ export class KjkApiService {
   getRules(bookId: number):Observable<string>{
     const url = `${this.kjkUrl}books/${bookId}/rules`;
 
-    return this.http.get<string>(url, { headers: this.getAuth() })
+    return this.http.get<string>(url)
       .pipe(
        tap(_ => this.log(`fetched rules bookId=${bookId}`)),
        catchError(this.handleError<string>(`getRules bookId=${bookId}`))
@@ -155,7 +155,7 @@ export class KjkApiService {
   getBook(id: number): Observable<BookDetailed> {
     const url = `${this.kjkUrl}books/${id}`;
 
-    return this.http.get<BookDetailed>(url, { headers: this.getAuth() })
+    return this.http.get<BookDetailed>(url)
       .pipe(
         tap(_ => this.log(`fetched book id=${id}`)),
         catchError(this.handleError<BookDetailed>(`getBook id=${id}`))
@@ -164,7 +164,7 @@ export class KjkApiService {
   
   getBooks(): Observable<Book[]> {
   
-    return this.http.get<Book[]>(this.kjkUrl + "books", { headers: this.getAuth() })
+    return this.http.get<Book[]>(this.kjkUrl + "books")
       .pipe(
         tap(books => this.log('fetched books')),
         catchError(this.handleError('getBooks', []))

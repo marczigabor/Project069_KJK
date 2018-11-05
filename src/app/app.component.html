@@ -2,24 +2,26 @@
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
+  </h1>
+  <h1>
     {{currentUser?.userName}}
   </h1>
 </div>
 
-<nav>
+<nav *ngIf="currentUser">
   <a routerLink="/books">Books</a>
 </nav>
-<nav>
+<nav *ngIf="currentUser">
   <a routerLink="/games">Games</a>
 </nav>
-<nav>
+<nav *ngIf="!currentUser">
     <a routerLink="/registration">Registration</a>
 </nav>
-<nav>
+<nav *ngIf="!currentUser">
     <a routerLink="/login">Login</a>
 </nav>
 
-<button (click)="logout()">Logout</button>
+<button *ngIf="currentUser" (click)="logout()">Logout</button>
 
 <router-outlet></router-outlet>
 <!-- <app-messages></app-messages>  -->
