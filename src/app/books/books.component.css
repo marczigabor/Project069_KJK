@@ -9,6 +9,7 @@
   }
   a {
     text-decoration: none;
+    line-height: 25px;
   }
   *, *:after, *:before {
     -webkit-box-sizing: border-box;

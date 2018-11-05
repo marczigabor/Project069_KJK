@@ -8,20 +8,15 @@
   </h1>
 </div>
 
-<nav *ngIf="currentUser">
-  <a routerLink="/books">Books</a>
-</nav>
-<nav *ngIf="currentUser">
-  <a routerLink="/games">Games</a>
-</nav>
-<nav *ngIf="!currentUser">
-    <a routerLink="/registration">Registration</a>
-</nav>
-<nav *ngIf="!currentUser">
-    <a routerLink="/login">Login</a>
+<nav>
+  <a *ngIf="currentUser" routerLink="/books">Books</a>
+  <a *ngIf="currentUser" routerLink="/games">Games</a>
+  <a *ngIf="!currentUser" routerLink="/registration">Registration</a>
+  <a *ngIf="!currentUser" routerLink="/login">Login</a>
+  <a *ngIf="currentUser" (click)="logout()">Logout</a>
 </nav>
 
-<button *ngIf="currentUser" (click)="logout()">Logout</button>
+<!-- <button *ngIf="currentUser" (click)="logout()">Logout</button> -->
 
 <router-outlet></router-outlet>
 <!-- <app-messages></app-messages>  -->
