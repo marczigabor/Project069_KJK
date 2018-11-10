@@ -2,6 +2,8 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { KjkApiService } from '../shared/services/kjk-api.service';
 import { Game } from '../shared/model/game';
 import { ActivatedRoute } from '@angular/router';
+import { RandomNumGeneratorService } from '../shared/services/random-num-generator.service';
+
 
 @Component({
   selector: 'app-game',
@@ -11,14 +13,33 @@ import { ActivatedRoute } from '@angular/router';
 export class GameComponent implements OnInit, AfterViewInit  {
 
   game: Game;
+  dices: number[];
 
   constructor(
     private kjkService: KjkApiService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private randomNum: RandomNumGeneratorService
+  ) { 
+    this.dices = [];
+  }
 
   ngOnInit() {
   }
+
+  roll(): void{
+    for (let i = 0; i < this.dices.length; i++) { 
+      this.dices[i] = this.randomNum.RandomNum(1,6);
+    }
+  }
+
+  addDice(): void{
+    this.dices.push(0);
+  }
+
+  removeDice(): void{
+    this.dices.pop();
+  }
+
 
   ngAfterViewInit(): void {
     const gameId : number = +this.route.snapshot.paramMap.get('gameId');

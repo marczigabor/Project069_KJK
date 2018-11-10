@@ -1,6 +1,34 @@
-<div>Skill: {{game?.skill}}</div>
-<div>Stamina: {{game?.stamina}}</div>
-<div>Luck: {{game?.luck}}</div>
+<div  *ngIf="game">
+    <div>
+        <label>Skill:
+            <input [(ngModel)]="game.skill">
+        </label>
+    </div>
+    <div>
+        <label>Stamina:
+            <input [(ngModel)]="game.stamina">
+        </label>
+    </div>
+    <div>
+        <label>Luck:
+                <input [(ngModel)]="game.luck">
+            </label>
+    </div>
+</div>                  
 
+<br/>
+
+<div>
+    <label>Dice</label><br/>
+    <label *ngFor="let dice of dices">
+        <span class="badge">{{dice}}</span>
+        <br/> 
+    </label>    
+
+    <button (click)="roll()">Roll the dice</button>
+    <button (click)="addDice()">+</button>
+    <button (click)="removeDice()">-</button>
+</div>
+    
 <br/>
 <app-chapters [bookId]="game?.bookId" [chapterId]="game?.chapterId" (chapterChange)="setGame($event)"></app-chapters>
