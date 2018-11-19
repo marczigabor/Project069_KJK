@@ -2,13 +2,13 @@
   {{chapter?.number}}
 </div>
 
-<div>
+<div class="description">
     {{chapter?.description}}
 </div>
   
 <ul class="navigation">
     <li *ngFor="let navigationChapter of chapter?.navigationChapters">
-      <button type="button" (click)="setChapterId(navigationChapter.chapterId)">
+      <button class="chapterButton" type="button" (click)="setChapterId(navigationChapter.chapterId)">
         <span class="badge">{{navigationChapter.number}}</span>
       </button> 
     </li>
