@@ -17,6 +17,7 @@ import { GameComponent } from './game/game.component';
 import { GamesComponent } from './games/games.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
+import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,9 @@ import { LoginComponent } from './login/login.component';
     FormsModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JsonInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: JsonInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

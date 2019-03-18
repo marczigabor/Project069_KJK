@@ -59,8 +59,8 @@ export class KjkApiService {
           let user: LoggedInUser = new LoggedInUser(jwtToken.id, jwtToken.auth_token, jwtToken.expires_in, jwtToken.userName);
           this.currentUserSubject.next(user);
           })
-        //catchError(this.handleError('Err'))
-      );
+        //,catchError(this.handleError('Err')
+        );
   }
   
   register(email: string, userName: string, password: string, firstName: string, lastName: string): Observable<any> {

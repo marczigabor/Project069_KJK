@@ -25,7 +25,7 @@
         <br/> 
     </label>    
 
-    <button (click)="roll()">Roll the dice</button>
+    <button  [disabled]="isRollEnabled()" (click)="roll()">Roll the dice</button>
     <button (click)="addDice()">+</button>
     <button (click)="removeDice()">-</button>
 </div>

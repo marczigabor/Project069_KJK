@@ -40,6 +40,9 @@ export class GameComponent implements OnInit, AfterViewInit  {
     this.dices.pop();
   }
 
+  isRollEnabled(): boolean {
+    return this.dices.length<1;
+  }
 
   ngAfterViewInit(): void {
     const gameId : number = +this.route.snapshot.paramMap.get('gameId');

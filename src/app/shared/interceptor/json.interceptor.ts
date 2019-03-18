@@ -14,7 +14,7 @@ export class JsonInterceptor implements HttpInterceptor {
                 'Content-Type': 'application/json',
             }
         });
-
+        console.log("json interceptor");
         return next.handle(request);
     }
 }
