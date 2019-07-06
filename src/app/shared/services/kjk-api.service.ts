@@ -27,7 +27,7 @@ export class KjkApiService {
     }   
 
     private kjkUrl = 'https://kjk1.azurewebsites.net/api/';
-//    private kjkUrl = 'https://localhost:5001/api/';
+    //private kjkUrl = 'https://localhost:5001/api/';
   //private kjkUrl = 'http://localhost:54656/api/';
 
   // getAuth(): HttpHeaders{

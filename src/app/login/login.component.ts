@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
 
   login({ value, valid }: { value: LoginModel, valid: boolean }) : any{
 
-    console.log(value);
     if (valid) {
 
       this.kjkService.login(value.userName, value.password)
