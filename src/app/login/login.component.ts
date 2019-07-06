@@ -12,6 +12,8 @@ export class LoginComponent implements OnInit {
   
   errors: string;  
   loginModel: LoginModel;
+  brandNew: boolean;
+  isRequesting: boolean;
 
   constructor(
     private kjkService: KjkApiService,
