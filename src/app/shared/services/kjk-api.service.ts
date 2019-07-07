@@ -30,16 +30,6 @@ export class KjkApiService {
     //private kjkUrl = 'https://localhost:5001/api/';
   //private kjkUrl = 'http://localhost:54656/api/';
 
-  // getAuth(): HttpHeaders{
-  //   let jwtToken: LoggedInUser = JSON.parse(localStorage.getItem('jwtToken'));
-
-  //   let bearerToken : string = `Bearer ${jwtToken ? jwtToken.auth_token : ''}`;
-  //     return new HttpHeaders({
-  //       'Content-Type': 'application/json',
-  //       'Authorization': bearerToken
-  //   });
-  // }
-
   public get currentUserValue(): LoggedInUser {
     return this.currentUserSubject.value;
   }
@@ -56,12 +46,38 @@ export class KjkApiService {
  
       return this.http.post<any>(url, body).pipe(
         tap(jwtToken => {
-          localStorage.setItem('jwtToken', JSON.stringify(jwtToken));
-          let user: LoggedInUser = new LoggedInUser(jwtToken.id, jwtToken.auth_token, jwtToken.expires_in, jwtToken.userName);
-          this.currentUserSubject.next(user);
+          this.setLoginUser(jwtToken);
           })
         //,catchError(this.handleError('Err')
         );
+  }
+
+  private setLoginUser(jwtToken: any){
+    localStorage.setItem('jwtToken', JSON.stringify(jwtToken));
+    let user: LoggedInUser = new LoggedInUser(jwtToken.id, jwtToken.auth_token, jwtToken.expires_in, jwtToken.userName);
+    this.currentUserSubject.next(user);
+  }
+
+  refreshToken(): Observable<boolean> {
+      if (this.currentUserValue && this.currentUserValue.auth_token){
+        
+        const url = `${this.kjkUrl}auth/refresh`;
+        const token = this.currentUserValue.auth_token;
+        let body = JSON.stringify({ token });
+
+        return this.http.post<any>(url, body).pipe(
+          tap(jwtToken => {
+            this.setLoginUser(jwtToken);
+            }),
+            map((token)=> { 
+              if (token.userName && token.auth_token){
+                return true;
+              }else{
+                return false;
+              }
+            })
+          );      
+        }
   }
   
   register(email: string, userName: string, password: string, firstName: string, lastName: string): Observable<any> {

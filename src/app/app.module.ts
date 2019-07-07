@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS }    from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { JwtInterceptor } from './shared/interceptor/jwt.interceptor';
+import { TokenInterceptor } from './shared/interceptor/token.interceptor';
+import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
 import { JsonInterceptor } from './shared/interceptor/json.interceptor';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +18,6 @@ import { GameComponent } from './game/game.component';
 import { GamesComponent } from './games/games.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
-import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { ErrorInterceptor } from './shared/interceptor/error.interceptor';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JsonInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
